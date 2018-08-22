@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/customerAPI/")
+@RequestMapping("/customerAPI")
 public class CustomerController {
 
 	@Autowired
@@ -25,7 +25,7 @@ public class CustomerController {
 	}
 	
 	@GetMapping("/customer/{id}")
-	Customer getCustomer(@PathVariable Long id) {
+	Customer getCustomer(@PathVariable("id") Long id) {
 		return customerRepository.getOne(id);
 	}
 	
@@ -34,16 +34,20 @@ public class CustomerController {
 		return customerRepository.save(customer);
 	}
 	
-	@PutMapping("/customer")
-	Customer updateCustomer(Long id, Customer updatedCustomer) throws Exception {
-		 return customerRepository.findById(id).map(customer -> {
-			 customer.setContactNumber(updatedCustomer.getContactNumber());
+	@PutMapping("/customer/{id}")
+	Customer updateCustomer(@PathVariable("id")  Long id, Customer updatedCustomer) throws Exception {
+		Customer customer = customerRepository.findById(id).get();
+		  if(customer== null) {
+			throw new Exception();  
+		  }else {
+			  System.out.println(updatedCustomer);
 	            return customerRepository.save(updatedCustomer);
-	        }).orElseThrow(() -> new Exception());
+		  }
+		
 	}
 	
 	@DeleteMapping("/customer/{id}")
-   public void deleteCustomer( Long id) throws Exception {
+   public void deleteCustomer(@PathVariable("id")  Long id) throws Exception {
 		  Customer customer = customerRepository.findById(id).get();
 		  if(customer== null) {
 			throw new Exception();  
