@@ -17,7 +17,7 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.frosters.InventoryProcess"))
                 .paths(regex("/customerAPI*"))
-                .build();
+                .build(); 
                
     }
  
