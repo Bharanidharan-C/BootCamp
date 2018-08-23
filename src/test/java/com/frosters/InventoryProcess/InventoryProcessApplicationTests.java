@@ -33,7 +33,7 @@ public class InventoryProcessApplicationTests {
 	
 	@Autowired
 	WebApplicationContext context;
-	
+	 
 	@Test
 	public void contextLoads() {
 	}

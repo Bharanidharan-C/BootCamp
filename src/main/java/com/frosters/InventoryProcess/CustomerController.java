@@ -30,7 +30,7 @@ public class CustomerController {
 	Customer getCustomer(@PathVariable("id") Long id) {
 		return customerRepository.getOne(id);
 	}
-	
+	 
 	@PostMapping("/customer")
 	@ResponseBody Customer addNewCustomer(@RequestBody Customer customer) {
 		return customerRepository.save(customer);
