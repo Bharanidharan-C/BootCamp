@@ -9,10 +9,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -23,6 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class InventoryProcessApplicationTests {
 
 	private MockMvc mockMVC;
@@ -40,52 +44,59 @@ public class InventoryProcessApplicationTests {
 	}
 	
 	@Test
-	public void testRetrieveAllCustomer() throws Exception {
+	public void test_2_RetrieveAllCustomer() throws Exception {
 		mockMVC.perform(get("/customerAPI/customer")).andDo(print())
-		.andExpect(status().isOk())
-		.andExpect(MockMvcResultMatchers.jsonPath("$customerId").value(0));
+		.andExpect(status().isOk());
+	
 	
 	}
 	
 	@Test
-	public void testGetCustomer() throws Exception{
+	public void test_1_GetCustomer() throws Exception{
 		
 		mockMVC.perform(get("/customerAPI/customer/0")).andDo(print())
 		.andExpect(status().isOk())
-		.andExpect(MockMvcResultMatchers.jsonPath("$customerName").value("Anu"));
+		.andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(0));
 		
 	}
 	
 	@Test
-	public void testaddCustomer() throws Exception{
-		Customer customer = new Customer(Long.valueOf(2), "Akhil",Long.valueOf(1234567890), "Madurai", "Male");
-		byte[] requestJSON = toJson(customer);
-		mockMVC.perform(post("/customerAPI").content(requestJSON)).andExpect(status().isOk());
+	public void test_3_addCustomer() throws Exception{
+		Customer customer = new Customer();
+		customer.setCustomerId(Long.valueOf(2));
+		customer.setCustomerName("Akash");
+		customer.setAddress("Chennai");
+		customer.setContactNumber(Long.valueOf(1234567890));
+		customer.setGender("male");
+		String requestJSON = toJson(customer);
+		mockMVC.perform(post("/customerAPI/customer").content(requestJSON).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 		mockMVC.perform(get("/customerAPI/customer/2")).andExpect(status().isOk())
-		.andExpect(MockMvcResultMatchers.jsonPath("$customerId").value(2));
+				.andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(2));
 	
 	}
 	
 	@Test
-	public void testUpdateCustomer() throws Exception{
+	public void test_4_UpdateCustomer() throws Exception{
 		Customer customer = new Customer(Long.valueOf(0), "Anu",Long.valueOf(1234567891), "Chennai", "Female");
-		byte[] requestJSON = toJson(customer);
-		System.out.println(requestJSON);
-		mockMVC.perform(put("/customerAPI/customer/1").content(requestJSON)).andExpect(status().isOk());
+	String requestJSON = toJson(customer);
+		System.out.println("requestJSON"+requestJSON);
+		mockMVC.perform(put("/customerAPI/customer/1").content(requestJSON).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk());
 		mockMVC.perform(get("/customerAPI/customer/1")).andExpect(status().isOk())
-		.andExpect(MockMvcResultMatchers.jsonPath("$contactNumber").value(1234567891));
+			.andExpect(MockMvcResultMatchers.jsonPath("$.contactNumber").value(1234567891));
 	
 	}
 	
 	@Test
-	public void testDeleteCustomer() throws Exception{
-		mockMVC.perform(delete("/customerAPI/customer/2")).andExpect(status().isAccepted());
-		mockMVC.perform(delete("/customerAPI/customer")).andExpect(status().isAccepted());
+	public void test_5_DeleteCustomer() throws Exception{
+		mockMVC.perform(delete("/customerAPI/customer/1")).andExpect(status().isOk());
+		mockMVC.perform(delete("/customerAPI/customer")).andExpect(status().isOk());
 	}
 
-	 private byte[] toJson(Object r) throws Exception {
+	 private String toJson(Object r) throws Exception {
 	        ObjectMapper map = new ObjectMapper();
-	        return map.writeValueAsString(r).getBytes();
+	        return map.writeValueAsString(r);
 	    }
 
 }

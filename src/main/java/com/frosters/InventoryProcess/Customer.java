@@ -3,10 +3,14 @@ package com.frosters.InventoryProcess;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name="CUSTOMER")
@@ -22,8 +26,9 @@ public class Customer {
 	Customer(){
 		super();
 	}
-
-	public Customer(Long customerId, String customerName, Long contactNumber, String address, String gender) {
+	
+	@JsonCreator
+	public Customer(Long customerId, @JsonProperty("customerName") String customerName, @JsonProperty("contactNumber") Long contactNumber, @JsonProperty("address") String address,@JsonProperty("gender") String gender) {
 		super();
 		this.customerId = customerId;
 		this.customerName = customerName;
@@ -32,6 +37,7 @@ public class Customer {
 		this.gender = gender;
 	}
 
+	@JsonProperty("customerId")
 	public Long getCustomerId() {
 		return customerId;
 	}
@@ -40,6 +46,7 @@ public class Customer {
 		this.customerId = customerId;
 	}
 
+	@JsonProperty("customerName")
 	public String getCustomerName() {
 		return customerName;
 	}
@@ -48,6 +55,7 @@ public class Customer {
 		this.customerName = customerName;
 	}
 
+	@JsonProperty("contactNumber")
 	public Long getContactNumber() {
 		return contactNumber;
 	}
@@ -56,6 +64,7 @@ public class Customer {
 		this.contactNumber = contactNumber;
 	}
 
+	@JsonProperty("address")
 	public String getAddress() {
 		return address;
 	}
@@ -63,7 +72,7 @@ public class Customer {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
+	@JsonProperty("gender")
 	public String getGender() {
 		return gender;
 	}

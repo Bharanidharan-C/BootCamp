@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,12 +32,12 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/customer")
-	Customer addNewCustomer(Customer customer) {
+	@ResponseBody Customer addNewCustomer(@RequestBody Customer customer) {
 		return customerRepository.save(customer);
 	}
 	
 	@PutMapping("/customer/{id}")
-	Customer updateCustomer(@PathVariable("id")  Long id, Customer updatedCustomer) throws Exception {
+	@ResponseBody Customer updateCustomer(@PathVariable("id")  Long id, @RequestBody  Customer updatedCustomer) throws Exception {
 		Customer customer = customerRepository.findById(id).get();
 		  if(customer== null) {
 			throw new Exception();  
