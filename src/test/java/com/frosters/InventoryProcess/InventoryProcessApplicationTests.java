@@ -105,7 +105,7 @@ public class InventoryProcessApplicationTests {
 	@Test
 	public void test_7_GetVendor() throws Exception{
 		
-		mockMVC.perform(get("/vendorAPI/vendor/0")).andDo(print())
+		mockMVC.perform(get("/vendorAPI/vendor/0").accept(MediaType.APPLICATION_JSON)).andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(MockMvcResultMatchers.jsonPath("$.vendorId").value(0));
 		
@@ -135,11 +135,12 @@ public class InventoryProcessApplicationTests {
 	
 	}
 	
-	@Test
-	public void test_10_DeleteVendor() throws Exception{
+	@Test	
+	public void z_test_10_DeleteVendor() throws Exception{
 		mockMVC.perform(delete("/vendorAPI/vendor/1")).andExpect(status().isOk());
 		mockMVC.perform(delete("/vendorAPI/vendor")).andExpect(status().isOk());
 	}
+	
 	@Test
 	public void test_11_RetrieveAllInventory() throws Exception {
 		mockMVC.perform(get("/inventoryAPI/inventory")).andDo(print())

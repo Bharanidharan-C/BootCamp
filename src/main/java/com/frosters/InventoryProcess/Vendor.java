@@ -5,7 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name="VENDOR")
@@ -37,6 +39,7 @@ public class Vendor {
 		super();
 	}
 
+	@JsonCreator
 	public Vendor(Long vendorId, String vendorName, Long vendorContactNo, String vendorEmail, String vendorUsername,
 			String vendorAddress) {
 		super();
@@ -47,7 +50,8 @@ public class Vendor {
 		this.vendorUsername = vendorUsername;
 		this.vendorAddress = vendorAddress;
 	}
-
+	
+	@JsonProperty("vendorId")
 	public Long getVendorId() {
 		return vendorId;
 	}
@@ -55,7 +59,7 @@ public class Vendor {
 	public void setVendorId(Long vendorId) {
 		this.vendorId = vendorId;
 	}
-
+	@JsonProperty("vendorName")
 	public String getVendorName() {
 		return vendorName;
 	}
@@ -63,7 +67,8 @@ public class Vendor {
 	public void setVendorName(String vendorName) {
 		this.vendorName = vendorName;
 	}
-
+	
+	@JsonProperty("vendorContactNo")
 	public Long getVendorContactNo() {
 		return vendorContactNo;
 	}
@@ -72,6 +77,7 @@ public class Vendor {
 		this.vendorContactNo = vendorContactNo;
 	}
 
+	@JsonProperty("vendorEmail")
 	public String getVendorEmail() {
 		return vendorEmail;
 	}
@@ -80,6 +86,7 @@ public class Vendor {
 		this.vendorEmail = vendorEmail;
 	}
 
+	@JsonProperty("vendorUsername")
 	public String getVendorUsername() {
 		return vendorUsername;
 	}
@@ -87,7 +94,8 @@ public class Vendor {
 	public void setVendorUsername(String vendorUsername) {
 		this.vendorUsername = vendorUsername;
 	}
-
+	
+	@JsonProperty("vendorAddress")
 	public String getVendorAddress() {
 		return vendorAddress;
 	}

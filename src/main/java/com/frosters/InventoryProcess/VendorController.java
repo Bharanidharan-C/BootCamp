@@ -22,7 +22,8 @@ public class VendorController {
 	VendorRepository vendorRepository;
 	
 	@GetMapping("/vendor")
-	List<Vendor> getAllVendors(){
+	Iterable<Vendor> getAllVendors(){
+		System.out.println(vendorRepository.findAll());
 	 return vendorRepository.findAll();	
 	}
 	
